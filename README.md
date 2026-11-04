@@ -79,3 +79,11 @@ Run `node node_modules/typescript/bin/tsc --noEmit` for type checking. Browser Q
 ## Pre-event operational checks
 
 Invite actual judge emails; confirm they can sign in independently; verify room codes and startup data; choose 6 vs 8; rehearse all judges saving/submitting concurrently; confirm a backup download and isolated restore; print fallback scorecards; confirm Wi-Fi and charged devices. No in-app conflict declaration or recusal feature is implemented, as requested.
+
+## Mobile judge interface and safe preview (4 Nov update)
+
+Open `/judge-preview` on the published origin to try a fictional evaluation without adding competition records. On desktop it shows an interactive phone frame with 320/375/390/430px width options; on a phone it opens the full-width judge form. `/judge-preview?view=full` always opens the form directly. Site-level sign-in/access still applies. The preview uses the same `app/components/JudgeEvaluation.tsx` as the live judge portal, with a separate local-device-only save adapter and a prominent PREVIEW banner. It never calls the evaluation API. Reset clears only the preview's browser storage. Real judge scores continue to use authenticated, versioned database writes.
+
+Mobile changes include a compact live judge header, 48px-high rating buttons, minimum 44px explanation/back controls, 16px comment input, collapsible startup profile, live save announcements, and a sticky weighted-score/submission bar with safe-area spacing. All seven criteria remain on one scrollable page. Saving is also attempted when the page becomes hidden, and evaluation fetches request keepalive; this is a best effort, not an offline or mobile-OS delivery guarantee.
+
+Browser checks on 320, 375, 390 and 430px iframe viewports found no horizontal document overflow. Minimum rating target at the smallest tested viewport was approximately 44.6 × 48px. Preview checks covered rating changes, guide opening, all seven ratings, sustainability Yes, comments, local draft persistence after reload, 84/100 calculation for [5,4,4,4,4,4,4], submission, disabled controls and persisted lock. These are narrow-browser layout and preview checks, not physical iOS/Android device or real-judge authentication tests. Complete those with judges before the event.
